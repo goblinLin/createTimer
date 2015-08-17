@@ -1,16 +1,16 @@
 -----------------------------------------------------------------------------------------
---
--- main.lua
---
------------------------------------------------------------------------------------------
-
--- 本範例用來解說如何使用Timer
+-- 本範例用來解說如何使用Timer來搭配performWithDelay，如需更多資料請參考下列網址
+-- https://docs.coronalabs.com/api/library/timer/performWithDelay.html
 -- Author: Zack Lin
--- Time: 2015/3/13
-
+-- Time: 2015/8/17
+-----------------------------------------------------------------------------------------
 _SCREEN = {
 	WIDTH = display.viewableContentWidth,
 	HEIGHT = display.viewableContentHeight
+}
+_SCREEN.CENTER = {
+	X = display.contentCenterX,
+	Y = display.contentCenterY
 }
 
 ----UI設置區塊
@@ -26,20 +26,22 @@ stateText:setTextColor( 255 , 255 , 255 )
 stateText.x = _SCREEN.WIDTH * 0.5
 stateText.y = _SCREEN.HEIGHT - 20
 
+--指向Timer的變數，用以控制Timer
 local tmr
 local sec = 10.0
 
 --偵聽performWithDelay的function，取用e.count可以得知被呼叫的次數
 function listener (e)
 
-	--[[ 此為數字增加的版本
+	--[[此為數字增加的版本
 	output.text = e.count
-	if(e.count == 20) then
+	if(e.count == 40) then
 		timer.cancel( tmr )
 		tmr = nil;
 		stateText.text = "Timer Finished"
 	end
 	]]
+	
 	
 	if sec >= 0.1 then
 		print( "sec:" .. sec )
@@ -47,7 +49,13 @@ function listener (e)
 		--將浮點數格式化為指定格式，下例為保持小數點後一位
 		output.text = string.format( "%.1f",sec )
 	else 
+		-- 取用params
+		local params = e.source.params
+		print('Name:' .. params.name)
+		print('Version:' .. params.version)
+
 		output.text = "0.0"
+		-- 將timer取消
 		timer.cancel( tmr )
 		tmr = nil;
 		stateText.text = "Timer Finished"
@@ -55,8 +63,13 @@ function listener (e)
 	end
 end
 
---timer可用來監視時間，performWithDelay用於當過一指定期間便會通知偵聽器，第一個參數為期間，第二個參數為偵聽器，第三為呼叫幾次後結束，如為無限可設為-1
+--  timer可用來監視時間，performWithDelay用於當過一指定期間便會通知偵聽器
+--  第一個參數為期間，單位為微秒
+--  第二個參數為偵聽器
+--  第三為呼叫幾次後結束，如為無限可設為-1
 tmr = timer.performWithDelay( 100, listener, -1)
+--可設定改timer使用的參數
+tmr.params = {name='zack' , version='1.0'}
 
 --暫停指定的timer
 timer.pause( tmr )
@@ -78,7 +91,7 @@ local function touchHandler(e)
 			end
 		end
 	end
-
+	--print('touchHandler')
 end
 
 --追蹤螢幕上所有的Touch事件
