@@ -49,7 +49,7 @@ function listener (e)
 		--將浮點數格式化為指定格式，下例為保持小數點後一位
 		output.text = string.format( "%.1f",sec )
 	else 
-		-- 取用params
+		-- 取用timer裡的params
 		local params = e.source.params
 		print('Name:' .. params.name)
 		print('Version:' .. params.version)
@@ -66,7 +66,7 @@ end
 --  timer可用來監視時間，performWithDelay用於當過一指定期間便會通知偵聽器
 --  第一個參數為期間，單位為微秒
 --  第二個參數為偵聽器
---  第三為呼叫幾次後結束，如為無限可設為-1
+--  第三為呼叫幾次後結束，如為無限可設為-1 or 0，預設為1
 tmr = timer.performWithDelay( 100, listener, -1)
 --可設定改timer使用的參數
 tmr.params = {name='zack' , version='1.0'}
@@ -93,6 +93,9 @@ local function touchHandler(e)
 	end
 	--print('touchHandler')
 end
+
+--當該timer已經用不到，可以將該timer給cancel掉
+--timer.cancel( tmr )
 
 --追蹤螢幕上所有的Touch事件
 Runtime:addEventListener( "touch", touchHandler )
