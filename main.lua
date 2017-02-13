@@ -58,7 +58,7 @@ function listener (e)
 		output.text = "0.0"
 		-- 將timer取消
 		timer.cancel( tmr )
-		tmr = nil;
+		tmr = nil
 		stateText.text = "Timer Finished"
 
 	end
