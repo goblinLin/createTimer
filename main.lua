@@ -33,15 +33,16 @@ local sec = 10.0
 --偵聽performWithDelay的function，取用e.count可以得知被呼叫的次數
 function listener (e)
 
-	--[[此為數字增加的版本
-	output.text = e.count
-	if(e.count == 40) then
-		timer.cancel( tmr )
-		tmr = nil;
-		stateText.text = "Timer Finished"
-	end
-	]]
+	--此為數字增加的版本
+	-- output.text = e.count
+	-- if(e.count == 40) then
+	-- 	timer.cancel( tmr )
+	-- 	tmr = nil;
+	-- 	stateText.text = "Timer Finished"
+	-- end
 	
+	
+
 	
 	if sec >= 0.1 then
 		print( "sec:" .. sec )
@@ -70,6 +71,7 @@ end
 tmr = timer.performWithDelay( 100, listener, -1)
 --可設定改timer使用的參數
 tmr.params = {name='zack' , version='1.0'}
+
 
 --暫停指定的timer
 timer.pause( tmr )
